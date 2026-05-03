@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 import json
@@ -8,7 +7,7 @@ class MovieLibrary:
     def __init__(self, root):
         self.root = root
         self.root.title("Movie Library - Личная кинотека")
-        self.root.geometry("1400x850")
+        self.root.geometry("1200x700")  # Уменьшил размер окна
         self.root.configure(bg='#1a1a2e')
         
         # Жанры фильмов
@@ -33,32 +32,20 @@ class MovieLibrary:
     def create_widgets(self):
         # Заголовок
         title_frame = tk.Frame(self.root, bg='#1a1a2e')
-        title_frame.pack(fill='x', padx=10, pady=10)
+        title_frame.pack(fill='x', padx=10, pady=5)
         
         tk.Label(title_frame, text="🎬 MOVIE LIBRARY", 
-                font=('Arial', 24, 'bold'), fg='#00d4ff', bg='#1a1a2e').pack()
+                font=('Arial', 18, 'bold'), fg='#00d4ff', bg='#1a1a2e').pack()
         
         tk.Label(title_frame, text="Личная кинотека", 
-                font=('Arial', 12), fg='#e0e0e0', bg='#1a1a2e').pack()
+                font=('Arial', 10), fg='#e0e0e0', bg='#1a1a2e').pack()
         
         tk.Label(title_frame, text="© Суроян Роман Асланович, 8 класс, 2026 г.", 
-                font=('Arial', 10), fg='#f39c12', bg='#1a1a2e').pack(pady=5)
-        
-        # Основная панель с прокруткой
-        main_canvas = tk.Canvas(self.root, bg='#1a1a2e', highlightthickness=0)
-        scrollbar = ttk.Scrollbar(self.root, orient="vertical", command=main_canvas.yview)
-        scrollable_frame = tk.Frame(main_canvas, bg='#1a1a2e')
-        
-        scrollable_frame.bind("<Configure>", lambda e: main_canvas.configure(scrollregion=main_canvas.bbox("all")))
-        main_canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-        main_canvas.configure(yscrollcommand=scrollbar.set)
-        
-        main_canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
+                font=('Arial', 9), fg='#f39c12', bg='#1a1a2e').pack(pady=2)
         
         # Основная панель
-        main_frame = tk.Frame(scrollable_frame, bg='#1a1a2e')
-        main_frame.pack(fill='both', expand=True, padx=20, pady=10)
+        main_frame = tk.Frame(self.root, bg='#1a1a2e')
+        main_frame.pack(fill='both', expand=True, padx=15, pady=5)
         
         # Левая панель
         left_panel = tk.Frame(main_frame, bg='#1a1a2e')
@@ -70,118 +57,126 @@ class MovieLibrary:
         
         # ===== ЛЕВАЯ ПАНЕЛЬ - ДОБАВЛЕНИЕ =====
         add_frame = tk.LabelFrame(left_panel, text=" 🎬 ДОБАВИТЬ ФИЛЬМ ", 
-                                   font=('Arial', 12, 'bold'), 
+                                   font=('Arial', 10, 'bold'), 
                                    fg='#00d4ff', bg='#16213e')
         add_frame.pack(fill='x', pady=5, padx=5)
         
         fields_frame = tk.Frame(add_frame, bg='#16213e')
-        fields_frame.pack(padx=20, pady=20)
+        fields_frame.pack(padx=15, pady=15)
         
         # Название
-        tk.Label(fields_frame, text="🎥 Название фильма:", font=('Arial', 11, 'bold'), 
-                fg='white', bg='#16213e').grid(row=0, column=0, sticky='w', pady=8)
-        self.title_entry = tk.Entry(fields_frame, width=30, font=('Arial', 11), bg='white')
-        self.title_entry.grid(row=0, column=1, padx=10, pady=8)
+        tk.Label(fields_frame, text="🎥 Название фильма:", font=('Arial', 10, 'bold'), 
+                fg='white', bg='#16213e').grid(row=0, column=0, sticky='w', pady=5)
+        self.title_entry = tk.Entry(fields_frame, width=25, font=('Arial', 10), bg='white')
+        self.title_entry.grid(row=0, column=1, padx=8, pady=5)
         
         # Жанр
-        tk.Label(fields_frame, text="📂 Жанр:", font=('Arial', 11, 'bold'), 
-                fg='white', bg='#16213e').grid(row=1, column=0, sticky='w', pady=8)
+        tk.Label(fields_frame, text="📂 Жанр:", font=('Arial', 10, 'bold'), 
+                fg='white', bg='#16213e').grid(row=1, column=0, sticky='w', pady=5)
         self.genre_combo = ttk.Combobox(fields_frame, values=self.genres, 
-                                        width=27, font=('Arial', 11))
+                                        width=22, font=('Arial', 10))
         self.genre_combo.set('Боевик')
-        self.genre_combo.grid(row=1, column=1, padx=10, pady=8)
+        self.genre_combo.grid(row=1, column=1, padx=8, pady=5)
         
         # Год выпуска
-        tk.Label(fields_frame, text="📅 Год выпуска:", font=('Arial', 11, 'bold'), 
-                fg='white', bg='#16213e').grid(row=2, column=0, sticky='w', pady=8)
-        self.year_entry = tk.Entry(fields_frame, width=30, font=('Arial', 11), bg='white')
-        self.year_entry.grid(row=2, column=1, padx=10, pady=8)
+        tk.Label(fields_frame, text="📅 Год выпуска:", font=('Arial', 10, 'bold'), 
+                fg='white', bg='#16213e').grid(row=2, column=0, sticky='w', pady=5)
+        self.year_entry = tk.Entry(fields_frame, width=25, font=('Arial', 10), bg='white')
+        self.year_entry.grid(row=2, column=1, padx=8, pady=5)
         
         # Рейтинг
-        tk.Label(fields_frame, text="⭐ Рейтинг (0-10):", font=('Arial', 11, 'bold'), 
-                fg='white', bg='#16213e').grid(row=3, column=0, sticky='w', pady=8)
-        self.rating_entry = tk.Entry(fields_frame, width=30, font=('Arial', 11), bg='white')
-        self.rating_entry.grid(row=3, column=1, padx=10, pady=8)
+        tk.Label(fields_frame, text="⭐ Рейтинг (0-10):", font=('Arial', 10, 'bold'), 
+                fg='white', bg='#16213e').grid(row=3, column=0, sticky='w', pady=5)
+        self.rating_entry = tk.Entry(fields_frame, width=25, font=('Arial', 10), bg='white')
+        self.rating_entry.grid(row=3, column=1, padx=8, pady=5)
         
         # Кнопка добавления
         tk.Button(fields_frame, text="➕ ДОБАВИТЬ ФИЛЬМ", command=self.add_movie,
-                 bg='#00d4ff', fg='#1a1a2e', font=('Arial', 12, 'bold'),
-                 padx=15, pady=10, cursor='hand2').grid(row=4, column=0, columnspan=2, pady=20)
+                 bg='#00d4ff', fg='#1a1a2e', font=('Arial', 10, 'bold'),
+                 padx=10, pady=8, cursor='hand2').grid(row=4, column=0, columnspan=2, pady=15)
         
         # ===== ЛЕВАЯ ПАНЕЛЬ - СТАТИСТИКА =====
         stats_frame = tk.LabelFrame(left_panel, text=" 📊 СТАТИСТИКА ", 
-                                     font=('Arial', 12, 'bold'), 
+                                     font=('Arial', 10, 'bold'), 
                                      fg='#00d4ff', bg='#16213e')
         stats_frame.pack(fill='both', expand=True, pady=5, padx=5)
         
-        self.stats_text = tk.Text(stats_frame, height=12, width=40,
+        stats_container = tk.Frame(stats_frame, bg='#16213e')
+        stats_container.pack(fill='both', expand=True, padx=5, pady=5)
+        
+        self.stats_text = tk.Text(stats_container, height=10, width=35,
                                   bg='#16213e', fg='#00d4ff',
-                                  font=('Consolas', 9), wrap='word',
+                                  font=('Consolas', 8), wrap='word',
                                   relief='flat', borderwidth=0)
-        self.stats_text.pack(padx=10, pady=10)
+        
+        stats_scroll = ttk.Scrollbar(stats_container, orient='vertical', command=self.stats_text.yview)
+        self.stats_text.configure(yscrollcommand=stats_scroll.set)
+        
+        self.stats_text.pack(side='left', fill='both', expand=True)
+        stats_scroll.pack(side='right', fill='y')
         
         # ===== ПРАВАЯ ПАНЕЛЬ - ФИЛЬТРЫ =====
         filter_frame = tk.LabelFrame(right_panel, text=" 🔍 ФИЛЬТРАЦИЯ ", 
-                                      font=('Arial', 12, 'bold'), 
+                                      font=('Arial', 10, 'bold'), 
                                       fg='#00d4ff', bg='#16213e')
         filter_frame.pack(fill='x', pady=5, padx=5)
         
         filter_inner = tk.Frame(filter_frame, bg='#16213e')
-        filter_inner.pack(padx=15, pady=15)
+        filter_inner.pack(padx=10, pady=10)
         
         # Фильтр по жанру
-        tk.Label(filter_inner, text="Жанр:", font=('Arial', 10, 'bold'), 
-                fg='white', bg='#16213e').grid(row=0, column=0, sticky='w', pady=5)
+        tk.Label(filter_inner, text="Жанр:", font=('Arial', 9, 'bold'), 
+                fg='white', bg='#16213e').grid(row=0, column=0, sticky='w', pady=3)
         
         self.filter_genre_combo = ttk.Combobox(filter_inner, 
                                                values=['все'] + self.genres, 
-                                               width=20, font=('Arial', 10))
+                                               width=18, font=('Arial', 9))
         self.filter_genre_combo.set('все')
-        self.filter_genre_combo.grid(row=0, column=1, padx=10, pady=5)
+        self.filter_genre_combo.grid(row=0, column=1, padx=8, pady=3)
         
         # Фильтр по году
-        tk.Label(filter_inner, text="Год от:", font=('Arial', 10, 'bold'), 
-                fg='white', bg='#16213e').grid(row=1, column=0, sticky='w', pady=5)
-        self.filter_year_from_entry = tk.Entry(filter_inner, width=15, font=('Arial', 10))
-        self.filter_year_from_entry.grid(row=1, column=1, padx=10, pady=5)
+        tk.Label(filter_inner, text="Год от:", font=('Arial', 9, 'bold'), 
+                fg='white', bg='#16213e').grid(row=1, column=0, sticky='w', pady=3)
+        self.filter_year_from_entry = tk.Entry(filter_inner, width=12, font=('Arial', 9))
+        self.filter_year_from_entry.grid(row=1, column=1, padx=8, pady=3)
         
-        tk.Label(filter_inner, text="Год до:", font=('Arial', 10, 'bold'), 
-                fg='white', bg='#16213e').grid(row=2, column=0, sticky='w', pady=5)
-        self.filter_year_to_entry = tk.Entry(filter_inner, width=15, font=('Arial', 10))
-        self.filter_year_to_entry.grid(row=2, column=1, padx=10, pady=5)
+        tk.Label(filter_inner, text="Год до:", font=('Arial', 9, 'bold'), 
+                fg='white', bg='#16213e').grid(row=2, column=0, sticky='w', pady=3)
+        self.filter_year_to_entry = tk.Entry(filter_inner, width=12, font=('Arial', 9))
+        self.filter_year_to_entry.grid(row=2, column=1, padx=8, pady=3)
         
         # Кнопки фильтрации
         btn_frame = tk.Frame(filter_inner, bg='#16213e')
-        btn_frame.grid(row=3, column=0, columnspan=2, pady=15)
+        btn_frame.grid(row=3, column=0, columnspan=2, pady=10)
         
-        tk.Button(btn_frame, text="🔍 ПРИМЕНИТЬ ФИЛЬТР", command=self.apply_filter,
-                 bg='#0f3460', fg='white', font=('Arial', 10, 'bold'),
-                 cursor='hand2', padx=15, pady=5).pack(side='left', padx=5)
+        tk.Button(btn_frame, text="🔍 ПРИМЕНИТЬ", command=self.apply_filter,
+                 bg='#0f3460', fg='white', font=('Arial', 9, 'bold'),
+                 cursor='hand2', padx=10, pady=3).pack(side='left', padx=3)
         
-        tk.Button(btn_frame, text="🔄 СБРОСИТЬ ФИЛЬТР", command=self.reset_filter,
-                 bg='#533483', fg='white', font=('Arial', 10, 'bold'),
-                 cursor='hand2', padx=15, pady=5).pack(side='left', padx=5)
+        tk.Button(btn_frame, text="🔄 СБРОСИТЬ", command=self.reset_filter,
+                 bg='#533483', fg='white', font=('Arial', 9, 'bold'),
+                 cursor='hand2', padx=10, pady=3).pack(side='left', padx=3)
         
         # ===== ПРАВАЯ ПАНЕЛЬ - ТАБЛИЦА =====
         table_frame = tk.LabelFrame(right_panel, text=" 📋 СПИСОК ФИЛЬМОВ ", 
-                                     font=('Arial', 12, 'bold'), 
+                                     font=('Arial', 10, 'bold'), 
                                      fg='#00d4ff', bg='#16213e')
         table_frame.pack(fill='both', expand=True, pady=5, padx=5)
         
         table_container = tk.Frame(table_frame, bg='#16213e')
-        table_container.pack(fill='both', expand=True, padx=10, pady=10)
+        table_container.pack(fill='both', expand=True, padx=8, pady=8)
         
         columns = ('title', 'genre', 'year', 'rating')
-        self.tree = ttk.Treeview(table_container, columns=columns, show='headings', height=10)
+        self.tree = ttk.Treeview(table_container, columns=columns, show='headings', height=8)
         
         self.tree.heading('title', text='🎬 НАЗВАНИЕ')
         self.tree.heading('genre', text='📂 ЖАНР')
         self.tree.heading('year', text='📅 ГОД')
         self.tree.heading('rating', text='⭐ РЕЙТИНГ')
         
-        self.tree.column('title', width=220)
-        self.tree.column('genre', width=120)
-        self.tree.column('year', width=80, anchor='center')
+        self.tree.column('title', width=180)
+        self.tree.column('genre', width=100)
+        self.tree.column('year', width=70, anchor='center')
         self.tree.column('rating', width=120, anchor='center')
         
         scroll_y = ttk.Scrollbar(table_container, orient='vertical', command=self.tree.yview)
@@ -194,213 +189,94 @@ class MovieLibrary:
         
         # ===== ПРАВАЯ ПАНЕЛЬ - КНОПКИ JSON =====
         json_frame = tk.LabelFrame(right_panel, text=" 💾 РАБОТА С ДАННЫМИ ", 
-                                    font=('Arial', 12, 'bold'), 
+                                    font=('Arial', 10, 'bold'), 
                                     fg='#00d4ff', bg='#16213e')
         json_frame.pack(fill='x', pady=5, padx=5)
         
         json_buttons = tk.Frame(json_frame, bg='#16213e')
-        json_buttons.pack(fill='x', padx=15, pady=15)
+        json_buttons.pack(fill='x', padx=10, pady=10)
         
-        tk.Button(json_buttons, text="💾 СОХРАНИТЬ В JSON", command=self.save_json,
-                 bg='#0f3460', fg='white', font=('Arial', 11, 'bold'),
-                 cursor='hand2', pady=8).pack(side='left', padx=5, expand=True, fill='x')
+        tk.Button(json_buttons, text="💾 СОХРАНИТЬ", command=self.save_json,
+                 bg='#0f3460', fg='white', font=('Arial', 9, 'bold'),
+                 cursor='hand2', pady=6).pack(side='left', padx=3, expand=True, fill='x')
         
-        tk.Button(json_buttons, text="📂 ЗАГРУЗИТЬ ИЗ JSON", command=self.load_json,
-                 bg='#0f3460', fg='white', font=('Arial', 11, 'bold'),
-                 cursor='hand2', pady=8).pack(side='left', padx=5, expand=True, fill='x')
+        tk.Button(json_buttons, text="📂 ЗАГРУЗИТЬ", command=self.load_json,
+                 bg='#0f3460', fg='white', font=('Arial', 9, 'bold'),
+                 cursor='hand2', pady=6).pack(side='left', padx=3, expand=True, fill='x')
         
-        tk.Button(json_buttons, text="🗑️ ОЧИСТИТЬ ВСЁ", command=self.clear_all,
-                 bg='#e94560', fg='white', font=('Arial', 11, 'bold'),
-                 cursor='hand2', pady=8).pack(side='left', padx=5, expand=True, fill='x')
+        tk.Button(json_buttons, text="🗑️ ОЧИСТИТЬ", command=self.clear_all,
+                 bg='#e94560', fg='white', font=('Arial', 9, 'bold'),
+                 cursor='hand2', pady=6).pack(side='left', padx=3, expand=True, fill='x')
         
-        self.file_info = tk.Label(json_frame, text=f"📄 Текущий файл: {self.current_file}", 
-                                  font=('Arial', 9), fg='#95a5a6', bg='#16213e')
-        self.file_info.pack(pady=10)
+        self.file_info = tk.Label(json_frame, text=f"📄 Файл: {self.current_file}", 
+                                  font=('Arial', 8), fg='#95a5a6', bg='#16213e')
+        self.file_info.pack(pady=5)
         
-        # ===== ПОДРОБНАЯ ИНСТРУКЦИЯ =====
-        self.create_detailed_instruction(scrollable_frame)
+        # ===== ИНСТРУКЦИЯ =====
+        self.create_instruction(right_panel)
     
-    def create_detailed_instruction(self, parent):
-        """Создание подробной инструкции"""
-        instr_frame = tk.LabelFrame(parent, text=" 📖 ПОДРОБНАЯ ИНСТРУКЦИЯ ", 
-                                    font=('Arial', 12, 'bold'), 
+    def create_instruction(self, parent):
+        """Создание компактной инструкции с прокруткой"""
+        instr_frame = tk.LabelFrame(parent, text=" 📖 ИНСТРУКЦИЯ ", 
+                                    font=('Arial', 10, 'bold'), 
                                     fg='#00d4ff', bg='#16213e')
-        instr_frame.pack(fill='x', padx=10, pady=10)
+        instr_frame.pack(fill='both', expand=True, pady=5, padx=5)
         
-        # Создаем текстовый виджет с прокруткой для инструкции
         text_frame = tk.Frame(instr_frame, bg='#16213e')
-        text_frame.pack(fill='both', expand=True, padx=10, pady=10)
+        text_frame.pack(fill='both', expand=True, padx=8, pady=8)
         
-        instr_text = tk.Text(text_frame, height=18, width=85,
-                             bg='#16213e', fg='#00d4ff',
-                             font=('Courier', 8), wrap='word',
-                             relief='flat', borderwidth=0)
+        instr_text = tk.Text(text_frame, 
+                             bg='#16213e', 
+                             fg='#00d4ff',
+                             font=('Consolas', 8), 
+                             wrap='word',
+                             relief='flat', 
+                             borderwidth=0,
+                             height=8,
+                             selectbackground='#0f3460')
         
         scroll_instr = ttk.Scrollbar(text_frame, orient='vertical', command=instr_text.yview)
         instr_text.configure(yscrollcommand=scroll_instr.set)
         
         instruction = """
-╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-║                                         ПОДРОБНАЯ ИНСТРУКЦИЯ                                                 ║
-╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╣
-║                                                                                                               ║
-║  📌 О ПРОГРАММЕ                                                                                               ║
-║  ─────────────                                                                                                ║
-║  Movie Library - это приложение для хранения информации о фильмах. Оно помогает вести личную коллекцию,      ║
-║  отслеживать рейтинги и анализировать предпочтения.                                                          ║
-║                                                                                                               ║
-║  🎯 ОСНОВНЫЕ ФУНКЦИИ:                                                                                         ║
-║  ─────────────────                                                                                            ║
-║  • Добавление фильмов (название, жанр, год, рейтинг)                                                         ║
-║  • Просмотр всех фильмов в виде таблицы                                                                       ║
-║  • Фильтрация по жанру и году выпуска                                                                         ║
-║  • Статистика (средний рейтинг, лучший/худший фильм, количество по жанрам)                                   ║
-║  • Сохранение и загрузка данных в JSON                                                                        ║
-║                                                                                                               ║
-║  ════════════════════════════════════════════════════════════════════════════════════════════════════════════ ║
-║                                                                                                               ║
-║  1️⃣  КАК ДОБАВИТЬ ФИЛЬМ                                                                                      ║
-║  ───────────────────────                                                                                      ║
-║                                                                                                               ║
-║     ШАГ 1: Введите НАЗВАНИЕ фильма в поле "Название фильма"                                                  ║
-║            • Примеры: "Побег из Шоушенка", "Крёстный отец", "Тёмный рыцарь"                                  ║
-║            • Название не может быть пустым                                                                   ║
-║                                                                                                               ║
-║     ШАГ 2: Выберите ЖАНР фильма из выпадающего списка                                                        ║
-║            • Доступные жанры: Боевик, Комедия, Драма, Фантастика, Ужасы,                                     ║
-║              Триллер, Мелодрама, Приключения, Детектив, Анимация                                             ║
-║                                                                                                               ║
-║     ШАГ 3: Введите ГОД выпуска фильма                                                                        ║
-║            • Год должен быть числом от 1888 до 2026                                                          ║
-║            • Примеры: 1994, 2008, 2020                                                                      ║
-║                                                                                                               ║
-║     ШАГ 4: Введите РЕЙТИНГ фильма от 0 до 10                                                                ║
-║            • Можно использовать десятичные дроби (например: 8.5, 9.3)                                        ║
-║            • Примеры: 7.5, 8.0, 9.9, 10.0                                                                  ║
-║                                                                                                               ║
-║     ШАГ 5: Нажмите кнопку "ДОБАВИТЬ ФИЛЬМ"                                                                  ║
-║            • Фильм добавится в таблицу справа                                                               ║
-║            • Статистика обновится автоматически                                                             ║
-║                                                                                                               ║
-║  ════════════════════════════════════════════════════════════════════════════════════════════════════════════ ║
-║                                                                                                               ║
-║  2️⃣  КАК ИСПОЛЬЗОВАТЬ ФИЛЬТРАЦИЮ                                                                             ║
-║  ─────────────────────────────                                                                                ║
-║                                                                                                               ║
-║     ФИЛЬТР ПО ЖАНРУ:                                                                                          ║
-║     • Выберите нужный жанр из списка (например, "Драма")                                                     ║
-║     • Нажмите кнопку "ПРИМЕНИТЬ ФИЛЬТР"                                                                     ║
-║     • В таблице останутся только фильмы выбранного жанра                                                    ║
-║                                                                                                               ║
-║     ФИЛЬТР ПО ГОДУ:                                                                                           ║
-║     • В поле "Год от" укажите начальный год (например, 1990)                                                ║
-║     • В поле "Год до" укажите конечный год (например, 1999)                                                 ║
-║     • Нажмите "ПРИМЕНИТЬ ФИЛЬТР"                                                                            ║
-║     • В таблице останутся фильмы за указанный период                                                        ║
-║                                                                                                               ║
-║     КОМБИНИРОВАННЫЙ ФИЛЬТР:                                                                                   ║
-║     • Можно фильтровать одновременно по жанру и по году                                                     ║
-║     • Например: жанр "Комедия" + годы "2000-2010"                                                            ║
-║                                                                                                               ║
-║     СБРОС ФИЛЬТРА:                                                                                            ║
-║     • Нажмите кнопку "СБРОСИТЬ ФИЛЬТР"                                                                      ║
-║     • Все фильтры отключатся                                                                                 ║
-║     • В таблице покажутся все фильмы                                                                         ║
-║                                                                                                               ║
-║  ════════════════════════════════════════════════════════════════════════════════════════════════════════════ ║
-║                                                                                                               ║
-║  3️⃣  ЧТО ПОКАЗЫВАЕТ СТАТИСТИКА                                                                               ║
-║  ─────────────────────────────                                                                                ║
-║                                                                                                               ║
-║     Статистика обновляется АВТОМАТИЧЕСКИ при каждом действии и показывает:                                   ║
-║                                                                                                               ║
-║     • ВСЕГО ФИЛЬМОВ - количество фильмов в коллекции (с учётом фильтра)                                     ║
-║                                                                                                               ║
-║     • СРЕДНИЙ РЕЙТИНГ - средняя оценка всех фильмов                                                         ║
-║                                                                                                               ║
-║     • ЛУЧШИЙ ФИЛЬМ - фильм с самым высоким рейтингом                                                        ║
-║                                                                                                               ║
-║     • ХУДШИЙ ФИЛЬМ - фильм с самым низким рейтингом                                                         ║
-║                                                                                                               ║
-║     • ПО ЖАНРАМ - количество фильмов в каждом жанре                                                         ║
-║                                                                                                               ║
-║  ════════════════════════════════════════════════════════════════════════════════════════════════════════════ ║
-║                                                                                                               ║
-║  4️⃣  РАБОТА С JSON ФАЙЛАМИ                                                                                  ║
-║  ─────────────────────────                                                                                    ║
-║                                                                                                               ║
-║     СОХРАНЕНИЕ:                                                                                               ║
-║     • Нажмите кнопку "СОХРАНИТЬ В JSON"                                                                     ║
-║     • Все фильмы сохранятся в файл movies.json в папке с программой                                         ║
-║     • Появится сообщение об успешном сохранении                                                             ║
-║                                                                                                               ║
-║     ЗАГРУЗКА:                                                                                                 ║
-║     • Нажмите кнопку "ЗАГРУЗИТЬ ИЗ JSON"                                                                    ║
-║     • Выберите нужный JSON файл в диалоговом окне                                                            ║
-║     • Данные загрузятся и отобразятся в таблице                                                              ║
-║                                                                                                               ║
-║     ОЧИСТКА:                                                                                                  ║
-║     • Нажмите кнопку "ОЧИСТИТЬ ВСЁ"                                                                         ║
-║     • Подтвердите действие в диалоговом окне                                                                 ║
-║     • Все фильмы будут удалены                                                                               ║
-║                                                                                                               ║
-║  ════════════════════════════════════════════════════════════════════════════════════════════════════════════ ║
-║                                                                                                               ║
-║  5️⃣  ПРИМЕРЫ ИСПОЛЬЗОВАНИЯ                                                                                  ║
-║  ─────────────────────────                                                                                    ║
-║                                                                                                               ║
-║     ПРИМЕР 1: Добавление любимых фильмов                                                                     ║
-║     ────────────────────────────────────────                                                                 ║
-║     • Название: "Побег из Шоушенка"                                                                         ║
-║     • Жанр: "Драма"                                                                                          ║
-║     • Год: 1994                                                                                              ║
-║     • Рейтинг: 9.3                                                                                          ║
-║     • Нажать "ДОБАВИТЬ ФИЛЬМ"                                                                               ║
-║                                                                                                               ║
-║     ПРИМЕР 2: Поиск комедий 2000-х годов                                                                    ║
-║     ────────────────────────────────────────                                                                 ║
-║     • В фильтре выбрать жанр "Комедия"                                                                      ║
-║     • Год от: 2000, Год до: 2009                                                                             ║
-║     • Нажать "ПРИМЕНИТЬ ФИЛЬТР"                                                                            ║
-║                                                                                                               ║
-║     ПРИМЕР 3: Сохранение коллекции                                                                           ║
-║     ──────────────────────────                                                                                ║
-║     • Добавить несколько фильмов                                                                             ║
-║     • Нажать "СОХРАНИТЬ В JSON"                                                                            ║
-║     • Закрыть программу                                                                                      ║
-║     • Открыть программу снова → "ЗАГРУЗИТЬ ИЗ JSON"                                                         ║
-║                                                                                                               ║
-║  ════════════════════════════════════════════════════════════════════════════════════════════════════════════ ║
-║                                                                                                               ║
-║  ⚠️  ЧАСТЫЕ ОШИБКИ И ИХ РЕШЕНИЕ                                                                              ║
-║  ──────────────────────────────────                                                                           ║
-║                                                                                                               ║
-║     ОШИБКА: "Год должен быть числом"                                                                        ║
-║     РЕШЕНИЕ: Введите только цифры, например: 1994                                                           ║
-║                                                                                                               ║
-║     ОШИБКА: "Год должен быть от 1888 до 2026"                                                               ║
-║     РЕШЕНИЕ: Введите год в диапазоне от 1888 до текущего года                                               ║
-║                                                                                                               ║
-║     ОШИБКА: "Рейтинг должен быть от 0 до 10"                                                                ║
-║     РЕШЕНИЕ: Введите число от 0 до 10 (например: 7.5, 8.0, 9.9)                                             ║
-║                                                                                                               ║
-║     ОШИБКА: "Не удалось сохранить файл"                                                                     ║
-║     РЕШЕНИЕ: Проверьте, есть ли у программы права на запись в папку                                         ║
-║                                                                                                               ║
-║  ════════════════════════════════════════════════════════════════════════════════════════════════════════════ ║
-║                                                                                                               ║
-║  💡 ПОЛЕЗНЫЕ СОВЕТЫ                                                                                          ║
-║  ────────────────                                                                                             ║
-║                                                                                                               ║
-║  • Регулярно сохраняйте коллекцию в JSON, чтобы не потерять данные                                          ║
-║  • Используйте фильтры для поиска фильмов по жанрам                                                         ║
-║  • Следите за статистикой, чтобы знать свои предпочтения                                                    ║
-║  • Добавляйте фильмы сразу после просмотра, чтобы ничего не забыть                                          ║
-║  • Оценивайте фильмы честно, чтобы статистика была точной                                                   ║
-║                                                                                                               ║
-╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════╗
+║                   📖 КРАТКАЯ ИНСТРУКЦИЯ                    ║
+╠════════════════════════════════════════════════════════════╣
+║                                                            ║
+║  📌 КАК ДОБАВИТЬ ФИЛЬМ:                                    ║
+║  1. Введите название фильма                                ║
+║  2. Выберите жанр                                          ║
+║  3. Укажите год выпуска (1888-2026)                       ║
+║  4. Укажите рейтинг (0-10)                                ║
+║  5. Нажмите "ДОБАВИТЬ ФИЛЬМ"                              ║
+║                                                            ║
+║  🔍 ФИЛЬТРАЦИЯ:                                            ║
+║  • Выберите жанр или укажите диапазон годов               ║
+║  • Нажмите "ПРИМЕНИТЬ"                                    ║
+║  • Нажмите "СБРОСИТЬ" для отмены фильтра                  ║
+║                                                            ║
+║  📊 СТАТИСТИКА:                                            ║
+║  • Обновляется автоматически                              ║
+║  • Показывает средний рейтинг, лучший/худший фильм,       ║
+║    распределение по жанрам                                ║
+║                                                            ║
+║  💾 РАБОТА С JSON:                                         ║
+║  • "СОХРАНИТЬ" - сохранить коллекцию в файл               ║
+║  • "ЗАГРУЗИТЬ" - загрузить коллекцию из файла             ║
+║  • "ОЧИСТИТЬ" - удалить все фильмы                        ║
+║                                                            ║
+║  💡 СОВЕТЫ:                                                ║
+║  • Регулярно сохраняйте коллекцию                         ║
+║  • Используйте фильтры для поиска                         ║
+║  • Оценивайте фильмы честно                               ║
+║                                                            ║
+║  ⚠️ ВАЖНО:                                                 ║
+║  • Год: только числа от 1888 до 2026                     ║
+║  • Рейтинг: числа от 0 до 10 (можно 8.5)                 ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
 
-                                    © Суроян Роман Асланович, 8 класс, 2026
+        © Суроян Роман Асланович, 8 класс, 2026
         """
         
         instr_text.insert('1.0', instruction)
@@ -533,21 +409,21 @@ class MovieLibrary:
             genre_counts[genre] = len([m for m in filtered if m['genre'] == genre])
         
         stats = f"""
-╔════════════════════════════════════════╗
-║         📊 СТАТИСТИКА                  ║
-╠════════════════════════════════════════╣
-║                                        ║
-║  🎬 ВСЕГО ФИЛЬМОВ: {total:>4}                     ║
-║                                        ║
-║  ⭐ СРЕДНИЙ РЕЙТИНГ: {avg_rating:>5.1f}/10               ║
-║                                        ║
-║  🏆 ЛУЧШИЙ ФИЛЬМ:                      ║
-║     {max_rating:.1f}⭐ - {max_title[:25]}      ║
-║                                        ║
-║  📉 ХУДШИЙ ФИЛЬМ:                      ║
-║     {min_rating:.1f}⭐ - {min_title[:25]}      ║
-║                                        ║
-║  📂 ПО ЖАНРАМ:                         ║
+╔══════════════════════════════════════╗
+║            📊 СТАТИСТИКА             ║
+╠══════════════════════════════════════╣
+║                                      ║
+║  🎬 ВСЕГО ФИЛЬМОВ: {total:>4}                   ║
+║                                      ║
+║  ⭐ СР. РЕЙТИНГ: {avg_rating:>5.1f}/10            ║
+║                                      ║
+║  🏆 ЛУЧШИЙ:                          ║
+║     {max_rating:.1f}⭐ - {max_title[:20]}   ║
+║                                      ║
+║  📉 ХУДШИЙ:                          ║
+║     {min_rating:.1f}⭐ - {min_title[:20]}   ║
+║                                      ║
+║  📂 ПО ЖАНРАМ:                       ║
 """
         
         for genre, count in genre_counts.items():
@@ -555,8 +431,8 @@ class MovieLibrary:
                 stats += f"     {genre}: {count:>2} шт.\n"
         
         stats += """
-║                                        ║
-╚════════════════════════════════════════╝
+║                                      ║
+╚══════════════════════════════════════╝
 """
         
         self.stats_text.insert('1.0', stats)
@@ -607,7 +483,7 @@ class MovieLibrary:
         try:
             with open(self.current_file, 'w', encoding='utf-8') as f:
                 json.dump(self.movies, f, ensure_ascii=False, indent=2)
-            self.file_info.config(text=f"📄 Текущий файл: {self.current_file} ✓ Сохранено")
+            self.file_info.config(text=f"📄 Файл: {self.current_file} ✓ Сохранено")
             messagebox.showinfo("Успех", f"✅ Данные сохранены!\n\n📁 Файл: {self.current_file}\n🎬 Фильмов: {len(self.movies)}")
         except Exception as e:
             messagebox.showerror("Ошибка", f"❌ Не удалось сохранить!\n{str(e)}")
@@ -631,7 +507,7 @@ class MovieLibrary:
                         self.reset_filter()
                         self.update_movies_table()
                         self.update_statistics()
-                        self.file_info.config(text=f"📄 Текущий файл: {self.current_file}")
+                        self.file_info.config(text=f"📄 Файл: {self.current_file}")
                         
                         messagebox.showinfo("Успех", f"✅ Загружено {len(self.movies)} фильмов!\n\n📁 Файл: {file_path}")
                     else:
@@ -668,3 +544,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = MovieLibrary(root)
     root.mainloop()
+        
+      
